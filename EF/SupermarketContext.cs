@@ -78,7 +78,6 @@ public partial class SupermarketContext : DbContext
             entity.HasKey(e => e.Id);
             entity.ToTable("Supermarket");
             entity.HasIndex(e => e.Phone).IsUnique();
-            entity.Property(e => e.Phone).HasDefaultValue("380-111-1111-111");
             entity.Property(e => e.Adress).HasMaxLength(50);
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Phone).HasMaxLength(15);
@@ -128,8 +127,8 @@ public partial class SupermarketContext : DbContext
                 DateOfEmployment = DateTime.Now
             },
             new Worker { 
-                Id  = 4, 
-                Name = "name4", 
+                Id  = 5, 
+                Name = "name5", 
                 Birthday = DateTime.Now, 
                 Position = "position5",
                 DateOfEmployment = DateTime.Now
@@ -172,8 +171,8 @@ public partial class SupermarketContext : DbContext
         );
         modelBuilder.Entity<ProductInReceipt>().HasData(
             new ProductInReceipt { ReceiptId = 1, ProductId = 1, Amount = 10},
-            new ProductInReceipt { ReceiptId = 1, ProductId = 1, Amount = 20},
-            new ProductInReceipt { ReceiptId = 1, ProductId = 1, Amount = 30}
+            new ProductInReceipt { ReceiptId = 2, ProductId = 2, Amount = 20},
+            new ProductInReceipt { ReceiptId = 3, ProductId = 3, Amount = 30}
         );
     }
 }

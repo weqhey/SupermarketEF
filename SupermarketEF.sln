@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupermarketEF", "SupermarketEF.csproj", "{79B7CD37-0548-4BF2-9603-ED154220A0D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{187821E5-20EC-42E2-ABE4-830AC7578543}"
+	ProjectSection(SolutionItems) = preProject
+		appsettings.json = appsettings.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79B7CD37-0548-4BF2-9603-ED154220A0D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79B7CD37-0548-4BF2-9603-ED154220A0D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79B7CD37-0548-4BF2-9603-ED154220A0D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79B7CD37-0548-4BF2-9603-ED154220A0D6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3509FDC-1948-4B66-9BDF-0E8DCC439975}
+	EndGlobalSection
+EndGlobal

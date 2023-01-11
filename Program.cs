@@ -1,10 +1,14 @@
-﻿using SupermarketEF.EF;
+﻿using Microsoft.EntityFrameworkCore;
+using SupermarketEF.EF;
 using SupermarketEF.Models;
+/*
+Навести приклади використання union, except, intersect, join, distinct, group by, агрегатних функцій.  
+Навести приклади різних стратегій завантаження зв'язаних даних (Eager, Explicit, Lazy). 
+Навести приклад завантаження даних що не відслідковуються, їх зміни та збереження. 
+Навести приклади виклику збережених процедур та функцій за допомогою Entity Framework.
+*/
 
-Create();
-Read();
-Update();
-Delete();
+Function();
 
 void Create()
 {
@@ -49,4 +53,22 @@ void Delete()
     {
         Console.WriteLine(it.Id + " " + it.Name);
     }
+}
+
+void Procedure()
+{
+    SupermarketContext context = new SupermarketContext();
+    var products = context.Products.FromSql($"EXECUTE dbo.GetProducts").ToList();
+
+    foreach (var item in products)
+    {
+        Console.WriteLine($"{item.Name} " + $"{item.Price}");
+    }
+}
+
+void Function()
+{
+    SupermarketContext context = new SupermarketContext();
+    var product = context.Products.FromSql($"SELECT * FROM dbo.GetProductById(1)").Single();
+    Console.WriteLine($"{product.Name} " + $"{product.Price}");
 }

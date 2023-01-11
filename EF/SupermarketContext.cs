@@ -4,12 +4,33 @@ using SupermarketEF.Models;
 
 namespace SupermarketEF.EF;
 
-public partial class SupermarketContext : DbContext 
+public partial class SupermarketContext : DbContext
 {
     public SupermarketContext()
     {
         Database.EnsureDeleted();
         Database.EnsureCreated();
+
+        var createSql = @"
+                create procedure [dbo].[GetProducts] as
+                begin
+                    select * from dbo.Product
+                    order by Name desc
+                end
+            ";
+
+        Database.ExecuteSqlRaw(createSql);
+
+        createSql = @"
+                create function [dbo].[GetProductById] (@id int)
+                returns table
+                as
+                return
+                    select * from dbo.Product
+                    where Id = @id
+            ";
+
+        Database.ExecuteSqlRaw(createSql);
     }
     public DbSet<Department> Departments { get; set; }
     public DbSet<Product> Products { get; set; }
@@ -18,7 +39,7 @@ public partial class SupermarketContext : DbContext
     public DbSet<Receipt> Receipts { get; set; }
     public DbSet<Supermarket> Supermarkets { get; set; }
     public DbSet<Person> Persons { get; set; }
-    public DbSet<Worker> Workers { get; set; }       
+    public DbSet<Worker> Workers { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var configuration = new ConfigurationBuilder()
@@ -34,7 +55,7 @@ public partial class SupermarketContext : DbContext
             entity.Property(e => e.ProductType).HasMaxLength(30);
             entity.HasOne(d => d.Supermarket).WithMany(p => p.Departments)
                 .HasForeignKey(d => d.SupermarketId)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .OnDelete(DeleteBehavior.Cascade);
         });
         modelBuilder.Entity<Product>(entity =>
         {
@@ -51,10 +72,10 @@ public partial class SupermarketContext : DbContext
             entity.ToTable("ProductInReceipt");
             entity.HasOne(d => d.Product).WithMany(p => p.ProductInReceipts)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);             
+                .OnDelete(DeleteBehavior.Cascade);
             entity.HasOne(d => d.Receipt).WithMany(p => p.ProductInReceipts)
                 .HasForeignKey(d => d.ReceiptId)
-                .OnDelete(DeleteBehavior.Cascade);                
+                .OnDelete(DeleteBehavior.Cascade);
         });
         modelBuilder.Entity<ProductInSupermarket>(entity =>
         {
@@ -65,7 +86,7 @@ public partial class SupermarketContext : DbContext
                 .OnDelete(DeleteBehavior.Cascade);
             entity.HasOne(d => d.SupermarketNavigation).WithMany(p => p.ProductInSupermarkets)
                 .HasForeignKey(d => d.Supermarket)
-                .OnDelete(DeleteBehavior.Cascade);               
+                .OnDelete(DeleteBehavior.Cascade);
         });
         modelBuilder.Entity<Receipt>(entity =>
         {
@@ -99,14 +120,14 @@ public partial class SupermarketContext : DbContext
             entity.HasMany(d => d.Departments).WithMany(p => p.Workers).UsingEntity(p => p.ToTable("WorkerDepartment"));
         });
         modelBuilder.Entity<Supermarket>().HasData(
-            new Supermarket { Id = 1, Name = "supermarket1", Adress = "adress1"},
-            new Supermarket { Id = 2, Name = "supermarket2", Adress = "adress2"},
-            new Supermarket { Id = 3, Name = "supermarket3", Adress = "adress3"}
+            new Supermarket { Id = 1, Name = "supermarket1", Adress = "adress1" },
+            new Supermarket { Id = 2, Name = "supermarket2", Adress = "adress2" },
+            new Supermarket { Id = 3, Name = "supermarket3", Adress = "adress3" }
         );
         modelBuilder.Entity<Department>().HasData(
-            new Department { Id = 1, ProductType = "type1", SupermarketId = 1},
-            new Department { Id = 2, ProductType = "type1", SupermarketId = 2},
-            new Department { Id = 3, ProductType = "type1", SupermarketId = 3}
+            new Department { Id = 1, ProductType = "type1", SupermarketId = 1 },
+            new Department { Id = 2, ProductType = "type1", SupermarketId = 2 },
+            new Department { Id = 3, ProductType = "type1", SupermarketId = 3 }
         );
         modelBuilder.Entity<Product>().HasData(
             new Product { Id = 1, Name = "product1", Price = 100, ProductType = "type1" },
@@ -119,60 +140,66 @@ public partial class SupermarketContext : DbContext
             new Person { Id = 3, Name = "name3", Birthday = DateTime.Now }
         );
         modelBuilder.Entity<Worker>().HasData(
-            new Worker { 
-                Id  = 4, 
-                Name = "name4", 
-                Birthday = DateTime.Now, 
+            new Worker
+            {
+                Id = 4,
+                Name = "name4",
+                Birthday = DateTime.Now,
                 Position = "position4",
                 DateOfEmployment = DateTime.Now
             },
-            new Worker { 
-                Id  = 5, 
-                Name = "name5", 
-                Birthday = DateTime.Now, 
+            new Worker
+            {
+                Id = 5,
+                Name = "name5",
+                Birthday = DateTime.Now,
                 Position = "position5",
                 DateOfEmployment = DateTime.Now
             },
-            new Worker { 
-                Id  = 6, 
-                Name = "name6", 
-                Birthday = DateTime.Now, 
+            new Worker
+            {
+                Id = 6,
+                Name = "name6",
+                Birthday = DateTime.Now,
                 Position = "position6",
                 DateOfEmployment = DateTime.Now
             }
         );
         modelBuilder.Entity<ProductInSupermarket>().HasData(
-            new ProductInSupermarket { 
-                Id = 1, 
-                Supermarket = 1, 
-                ProductId = 1, 
-                Amount = 10, 
+            new ProductInSupermarket
+            {
+                Id = 1,
+                Supermarket = 1,
+                ProductId = 1,
+                Amount = 10,
                 ExpirationDate = DateTime.Now
             },
-            new ProductInSupermarket { 
-                Id = 2, 
-                Supermarket = 2, 
-                ProductId = 2, 
-                Amount = 20, 
+            new ProductInSupermarket
+            {
+                Id = 2,
+                Supermarket = 2,
+                ProductId = 2,
+                Amount = 20,
                 ExpirationDate = DateTime.Now
             },
-            new ProductInSupermarket { 
-                Id = 3, 
-                Supermarket = 3, 
-                ProductId = 3, 
-                Amount = 30, 
+            new ProductInSupermarket
+            {
+                Id = 3,
+                Supermarket = 3,
+                ProductId = 3,
+                Amount = 30,
                 ExpirationDate = DateTime.Now
             }
         );
         modelBuilder.Entity<Receipt>().HasData(
-            new Receipt { Id = 1, Date = DateTime.Now, WorkerId = 1, Price = 100},
-            new Receipt { Id = 2, Date = DateTime.Now, WorkerId = 2, Price = 200},
-            new Receipt { Id = 3, Date = DateTime.Now, WorkerId = 3, Price = 300}
+            new Receipt { Id = 1, Date = DateTime.Now, WorkerId = 1, Price = 100 },
+            new Receipt { Id = 2, Date = DateTime.Now, WorkerId = 2, Price = 200 },
+            new Receipt { Id = 3, Date = DateTime.Now, WorkerId = 3, Price = 300 }
         );
         modelBuilder.Entity<ProductInReceipt>().HasData(
-            new ProductInReceipt { ReceiptId = 1, ProductId = 1, Amount = 10},
-            new ProductInReceipt { ReceiptId = 2, ProductId = 2, Amount = 20},
-            new ProductInReceipt { ReceiptId = 3, ProductId = 3, Amount = 30}
+            new ProductInReceipt { ReceiptId = 1, ProductId = 1, Amount = 10 },
+            new ProductInReceipt { ReceiptId = 2, ProductId = 2, Amount = 20 },
+            new ProductInReceipt { ReceiptId = 3, ProductId = 3, Amount = 30 }
         );
     }
 }

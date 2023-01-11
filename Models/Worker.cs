@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SupermarketEF.Models;
 
-public partial class Worker
+public partial class Worker : Person
 {
-    public int Id { get; set; }
-    public string Name { get; set; } = null!;
-    public DateTime Birthday { get; set; }
     public string Position { get; set; } = null!;
     public DateTime DateOfEmployment { get; set; }
     public List<Receipt> Receipts { get; } = new List<Receipt>();

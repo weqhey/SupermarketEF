@@ -3,7 +3,6 @@ using SupermarketEF.EF;
 using SupermarketEF.Models;
 /*
 Навести приклади використання union, except, intersect, join, distinct, group by, агрегатних функцій.  
-Навести приклади різних стратегій завантаження зв'язаних даних (Eager, Explicit, Lazy). 
 Навести приклад завантаження даних що не відслідковуються, їх зміни та збереження. 
 */
 
@@ -12,6 +11,7 @@ Procedure();
 EagerLoading();
 ExplicitLoading();
 LazyLoading();
+AsNoTracking();
 
 void Create()
 {
@@ -85,7 +85,7 @@ void EagerLoading()
 {
     SupermarketContext context = new SupermarketContext();
     var receipts = context.ProductInReceipts.Include(p => p.Product).ToList();
-    foreach(var it in receipts)
+    foreach (var it in receipts)
     {
         Console.WriteLine(it.Product?.Name);
     }
@@ -95,18 +95,34 @@ void ExplicitLoading()
 {
     SupermarketContext context = new SupermarketContext();
     var receipt = context.ProductInReceipts.First();
-    if (receipt!= null)
+    if (receipt != null)
     {
         context.Products.Where(p => p.Id == receipt.ProductId).Load();
         Console.WriteLine(receipt?.Product.Name);
     }
 }
 void LazyLoading()
- {
+{
     SupermarketContext context = new SupermarketContext();
     var receipts = context.ProductInReceipts.ToList();
-    foreach(var it in receipts)
+    foreach (var it in receipts)
     {
         Console.WriteLine(it.Product?.Name);
+    }
+}
+
+void AsNoTracking()
+{
+    SupermarketContext context = new SupermarketContext();
+    var product = context.Products.AsNoTracking().First();
+    if (product != null)
+    {
+        product.Name = "New name";
+        context.SaveChanges();
+    }
+    var products = context.Products.ToList();
+    foreach (var it in products)
+    {
+        Console.WriteLine(it.Name);
     }
 }

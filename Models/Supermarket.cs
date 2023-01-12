@@ -13,6 +13,6 @@ public partial class Supermarket
     public string Name { get; set; } = null!;
     public string Adress { get; set; } = null!;
     public string? Phone { get; set; }
-    public List<Department> Departments { get; } = new List<Department>();
-    public List<ProductInSupermarket> ProductInSupermarkets { get; } = new List<ProductInSupermarket>();
+    public virtual List<Department> Departments { get; } = new List<Department>();
+    public virtual List<ProductInSupermarket> ProductInSupermarkets { get; } = new List<ProductInSupermarket>();
 }

@@ -12,8 +12,6 @@ public partial class ProductInSupermarket
     public int ProductId { get; set; }
     public int Amount { get; set; }
     public DateTime ExpirationDate { get; set; }
-
-    public Product Product { get; set; } = null!;
-
-    public Supermarket SupermarketNavigation { get; set; } = null!;
+    public virtual Product Product { get; set; } = null!;
+    public virtual Supermarket SupermarketNavigation { get; set; } = null!;
 }

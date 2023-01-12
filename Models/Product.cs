@@ -11,6 +11,6 @@ public partial class Product
     public string Name { get; set; } = null!;
     public decimal Price { get; set; }
     public string ProductType { get; set; } = null!;
-    public List<ProductInReceipt> ProductInReceipts { get; } = new List<ProductInReceipt>();
-    public List<ProductInSupermarket> ProductInSupermarkets { get; } = new List<ProductInSupermarket>();
+    public virtual List<ProductInReceipt> ProductInReceipts { get; } = new List<ProductInReceipt>();
+    public virtual List<ProductInSupermarket> ProductInSupermarkets { get; } = new List<ProductInSupermarket>();
 }

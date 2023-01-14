@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SupermarketEF.Models;
+﻿namespace SupermarketEF.Models;
 
 public partial class Worker : Person
 {

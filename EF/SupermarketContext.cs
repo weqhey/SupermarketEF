@@ -114,6 +114,9 @@ public partial class SupermarketContext : DbContext
             entity.ToTable("Person")
                 .HasDiscriminator<string>("Discriminator")
                 .HasValue<Worker>("Worker");
+            entity.ToTable("Person")
+                .HasDiscriminator<string>("Discriminator")
+                .HasValue<Manager>("Manager");
             entity.Property(e => e.Name).HasMaxLength(30);
         });
         modelBuilder.Entity<Worker>(entity =>

@@ -32,14 +32,14 @@ public partial class SupermarketContext : DbContext
 
         Database.ExecuteSqlRaw(createSql);
     }
-    public DbSet<Department> Departments { get; set; }
-    public DbSet<Product> Products { get; set; }
-    public DbSet<ProductInReceipt> ProductInReceipts { get; set; }
-    public DbSet<ProductInSupermarket> ProductInSupermarkets { get; set; }
-    public DbSet<Receipt> Receipts { get; set; }
-    public DbSet<Supermarket> Supermarkets { get; set; }
-    public DbSet<Person> Persons { get; set; }
-    public DbSet<Worker> Workers { get; set; }
+    public DbSet<Department> Departments { get; set; } = null!;
+    public DbSet<Product> Products { get; set; } = null!;
+    public DbSet<ProductInReceipt> ProductInReceipts { get; set; } = null!;
+    public DbSet<ProductInSupermarket> ProductInSupermarkets { get; set; } = null!;
+    public DbSet<Receipt> Receipts { get; set; } = null!;
+    public DbSet<Supermarket> Supermarkets { get; set; } = null!;
+    public DbSet<Person> Persons { get; set; } = null!;
+    public DbSet<Worker> Workers { get; set; } = null!;
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var configuration = new ConfigurationBuilder()
@@ -194,9 +194,9 @@ public partial class SupermarketContext : DbContext
             }
         );
         modelBuilder.Entity<Receipt>().HasData(
-            new Receipt { Id = 1, Date = DateTime.Now, WorkerId = 1, Price = 100 },
-            new Receipt { Id = 2, Date = DateTime.Now, WorkerId = 2, Price = 200 },
-            new Receipt { Id = 3, Date = DateTime.Now, WorkerId = 3, Price = 300 }
+            new Receipt { Id = 1, Date = DateTime.Now, WorkerId = 4, Price = 100 },
+            new Receipt { Id = 2, Date = DateTime.Now, WorkerId = 5, Price = 200 },
+            new Receipt { Id = 3, Date = DateTime.Now, WorkerId = 6, Price = 300 }
         );
         modelBuilder.Entity<ProductInReceipt>().HasData(
             new ProductInReceipt { ReceiptId = 1, ProductId = 1, Amount = 10 },

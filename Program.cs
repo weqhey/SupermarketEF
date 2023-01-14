@@ -3,15 +3,10 @@ using SupermarketEF.EF;
 using SupermarketEF.Models;
 /*
 Навести приклади використання union, except, intersect, join, distinct, group by, агрегатних функцій.  
-Навести приклад завантаження даних що не відслідковуються, їх зміни та збереження. 
 */
 
-Function();
-Procedure();
-EagerLoading();
-ExplicitLoading();
-LazyLoading();
-AsNoTracking();
+GroupBy();
+Count();
 
 void Create()
 {
@@ -125,4 +120,87 @@ void AsNoTracking()
     {
         Console.WriteLine(it.Name);
     }
+}
+
+void Union()
+{
+    SupermarketContext context = new SupermarketContext();
+    var query = context.Workers.Select(p => p.Id).Union(context.Receipts.Select(p => p.WorkerId));
+    foreach(var it in query)
+    {
+        Console.WriteLine(it);
+    }
+}
+
+void Except()
+{
+    SupermarketContext context = new SupermarketContext();
+    var query = context.Workers.Select(p => p.Id).Except(context.Receipts.Select(p => p.WorkerId));
+    foreach(var it in query)
+    {
+        Console.WriteLine(it);
+    }
+}
+
+void Intersect()
+{
+    SupermarketContext context = new SupermarketContext();
+    var query = context.Workers.Select(p => p.Id).Intersect(context.Receipts.Select(p => p.WorkerId));
+    foreach(var it in query)
+    {
+        Console.WriteLine(it);
+    }
+}
+
+void Distinct()
+{
+
+}
+
+void Join()
+{
+    SupermarketContext context = new SupermarketContext();
+    var query = context.Products.Join(
+        context.ProductInReceipts,
+        product => product.Id,
+        productInReceipt => productInReceipt.ProductId,
+        (product, productInReceipt) => new { 
+            ProductInReceiptId = productInReceipt.ProductId,
+            ProductId = product.Id
+        }
+    );
+    foreach(var it in query)
+    {
+        Console.WriteLine(it);
+    }
+}
+
+void GroupBy()
+{
+    SupermarketContext context = new SupermarketContext();
+    var query = context.Receipts.Join(
+        context.Workers,
+        receipt => receipt.WorkerId,
+        worker => worker.Id,
+        (receipt, worker) => new { 
+            WorkerId = worker.Id,
+            ReceiptId = receipt.Id
+        }) 
+        .GroupBy(p => p.WorkerId)
+        .Select(m => new
+        {
+            m.Key,
+            Count = m.Count()
+        });
+    foreach(var it in query)
+    {
+        Console.WriteLine(it);
+    }
+}
+
+void Count()
+{
+    SupermarketContext context = new SupermarketContext();
+    var query = context.Workers.Count();
+    Console.WriteLine(query);
 }

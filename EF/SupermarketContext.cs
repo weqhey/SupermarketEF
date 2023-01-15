@@ -199,12 +199,16 @@ public partial class SupermarketContext : DbContext
         modelBuilder.Entity<Receipt>().HasData(
             new Receipt { Id = 1, Date = DateTime.Now, WorkerId = 4, Price = 100 },
             new Receipt { Id = 2, Date = DateTime.Now, WorkerId = 5, Price = 200 },
-            new Receipt { Id = 3, Date = DateTime.Now, WorkerId = 6, Price = 300 }
+            new Receipt { Id = 3, Date = DateTime.Now, WorkerId = 6, Price = 300 },
+            new Receipt { Id = 4, Date = DateTime.Now, WorkerId = 6, Price = 400 },
+            new Receipt { Id = 5, Date = DateTime.Now, WorkerId = 6, Price = 500 }
         );
         modelBuilder.Entity<ProductInReceipt>().HasData(
             new ProductInReceipt { ReceiptId = 1, ProductId = 1, Amount = 10 },
             new ProductInReceipt { ReceiptId = 2, ProductId = 2, Amount = 20 },
-            new ProductInReceipt { ReceiptId = 3, ProductId = 3, Amount = 30 }
+            new ProductInReceipt { ReceiptId = 3, ProductId = 3, Amount = 30 },
+            new ProductInReceipt { ReceiptId = 4, ProductId = 3, Amount = 40 },
+            new ProductInReceipt { ReceiptId = 5, ProductId = 3, Amount = 50 }
         );
     }
 }

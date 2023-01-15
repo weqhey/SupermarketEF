@@ -2,6 +2,28 @@
 using SupermarketEF.EF;
 using SupermarketEF.Models;
 
+GetProductsTypeBySales();
+
+void GetProductsTypeBySales()
+{
+    SupermarketContext context = new SupermarketContext();
+    var sum = context.ProductInReceipts.Sum(p => p.Amount);
+    Console.WriteLine(sum);
+    var query = context.Products.Join(
+        context.ProductInReceipts,
+        product => product.Id,
+        receipt => receipt.ProductId,
+        (product, receipt) => new { product.ProductType, Amount = receipt.Amount })
+        .GroupBy(p => p.ProductType, 
+            (key, amount) => new { ProductType = key, Amount = (amount.Sum(p => p.Amount) * 100)/sum})
+        .OrderByDescending(p => p.Amount)
+        .Select(p => new { p.ProductType, p.Amount });
+    foreach(var it in query)
+    {
+        Console.WriteLine(it);
+    }    
+}
+
 void Create()
 {
     SupermarketContext context = new SupermarketContext();

@@ -108,19 +108,20 @@ public partial class SupermarketContext : DbContext
         modelBuilder.Entity<Person>(entity =>
         {
             entity.HasKey(e => e.Id);
-            entity.ToTable("Person")
-                .HasDiscriminator<string>("Discriminator")
-                .HasValue<Person>("Person");
-            entity.ToTable("Person")
-                .HasDiscriminator<string>("Discriminator")
-                .HasValue<Worker>("Worker");
-            entity.ToTable("Person")
-                .HasDiscriminator<string>("Discriminator")
-                .HasValue<Manager>("Manager");
+            entity.ToTable("Person");
+              
+            
             entity.Property(e => e.Name).HasMaxLength(30);
+        });
+        modelBuilder.Entity<Manager>(entity =>
+        {
+            entity.ToTable("Manager");      
+            entity.Property(e => e.Position).HasMaxLength(30);
+            
         });
         modelBuilder.Entity<Worker>(entity =>
         {
+            entity.ToTable("Worker");               
             entity.Property(e => e.Position).HasMaxLength(30);
             entity.HasMany(d => d.Departments).WithMany(p => p.Workers).UsingEntity(p => p.ToTable("WorkerDepartment"));
         });

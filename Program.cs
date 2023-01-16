@@ -8,7 +8,6 @@ void GetProductsTypeBySales()
 {
     SupermarketContext context = new SupermarketContext();
     var sum = context.ProductInReceipts.Sum(p => p.Amount);
-    Console.WriteLine(sum);
     var query = context.Products.Join(
         context.ProductInReceipts,
         product => product.Id,
